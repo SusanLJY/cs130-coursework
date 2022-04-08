@@ -1,0 +1,72 @@
+/*
+
+Your tasks:
+1. Body copy: 
+   apply some styling to the body text of your HTML page. 
+   Experiment with some following text properties:
+       font-family, font-size, line-height, color, font-size, 
+       text-transform, letter-spacing
+*/
+body{
+   font-size: medium;
+   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+   line-height: 130%; /*行间距*/
+   color:chocolate; /*color of font*/
+   text-transform: capitalize; /*大小写规则*/
+   letter-spacing: 0px; /*字母间距*/
+   background-color: antiquewhite;
+}
+
+/*
+2. Create some spacing between the article tags
+   Hint: use the margin and padding properties
+*/
+*{
+   margin: 10px;
+   padding: 0.5px;
+}
+
+/*
+3. Style the navigation bar.
+   Hint: use the following text properties:
+     background-color, padding
+*/
+header{
+   background-color: burlywood;
+   padding: 2px;
+}
+
+/*
+4. Style the img tag and see if you can make it look like it’s sitting in a picture frame.
+   Hint: use the following box-model properties: 
+     padding, border, border-radius, box-shadow, width
+*/
+img{
+   padding: 1%;
+   border: 1px;
+   border-radius: 15%;
+   box-shadow: 0ch;
+   width: 500px;
+}
+
+/*
+5. Create a class that, when applied, turns the text to hot pink.
+   Style the links (anchor tag) by experimenting with 
+   the :hover keyword/pseudo-class, so when you hover over it, 
+   the underline disappears.
+
+   Hint: check out this example:
+      https://www.w3schools.com/cssref/sel_hover.asp 
+*/
+.try{
+   color: hotpink;
+   
+}
+/*
+6. Style the h1 and h2 tags so that they use Google fonts:
+
+   Hint: check out these resources:
+     * https://eecs130.github.io/spring2022/css-reference/fonts/
+     * https://www.w3schools.com/css/css_font_google.asp 
+
+*/

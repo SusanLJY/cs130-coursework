@@ -5,17 +5,32 @@
 
 body {
     margin: 0px;
-    font-family: Arial, sans-serif;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, sans-serif;
+    text-align: center;
 }
-header, section {
+header{
     padding: 20px;
+    background-color: #d4e09b;
+    font-family: 'Square Peg', cursive;
 }
 p, li {
     line-height: 1.5em;
 }
 
+#tutorials{
+    background-color: #f6f4d2;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+#homework {
+    background-color: #cbdfbd;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
 #inspiration {
-    background-color: #F0F0F0;
+    background-color: #f19c79;
     padding-top: 40px;
     padding-bottom: 40px;
 }

@@ -30,43 +30,43 @@ article, aside, section, main, section > div{
 
 .menu1 {
    grid-area: A;
-   background-color: crimson;
+   background-color: #6b705c;
    color: aliceblue;
 }
 
 .menu2 {
    grid-area: B;
-   background-color: rgb(220, 187, 20);
+   background-color: #a5a58d;
    color: aliceblue;
 }
 
 .card1 {
    grid-area: C;
-   background-color: rgb(20, 220, 83);
+   background-color: #b7b7a4;
    color: aliceblue;
 }
 
 .card2 {
    grid-area: D;
-   background-color: rgb(93, 20, 220);
+   background-color: #d4a373;
    color: aliceblue;
 }
 
 .card3 {
    grid-area: E;
-   background-color: rgb(220, 20, 203);
+   background-color: #ddbea9;
    color: aliceblue;
 }
 
 .main {
    grid-area: F;
-   background-color: rgb(100, 220, 20);
+   background-color: #cb997e;
    color: aliceblue;
 }
 
 .aside {
    grid-area: G;
-   background-color: rgb(20, 220, 157);
+   background-color: #6b705c;
    color: aliceblue;
 }
 

@@ -1,0 +1,237 @@
+body {
+    font-family: "Helvetica Neue", "Helvetica", Arial, sans-serif;
+    color: #fff;
+}
+a, a:hover, a:visited, a:active { 
+    color: #fff;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+/**********/
+/* Layout */
+/**********/
+aside, footer, header, nav, section, article {
+    display: flex;
+    flex-direction: column;
+
+}
+body {
+    overflow: hidden;
+    margin: 0px;
+    display: grid;
+    grid-template-columns: 250px auto;
+    grid-template-rows: auto 100px;
+    grid-template-areas:
+       "left main"
+       "bottom bottom";
+    height: 100vh;
+}
+aside {
+    background-color: #000;
+    grid-area: left;
+}
+header {
+    background: #111;
+    position: fixed;
+    width: calc(100vw - 250px);
+    left: 250px;
+}
+
+main {
+    background: #111;
+    grid-area: main;
+    min-height: calc(350px);
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+    z-index: 3;
+}
+
+nav {
+    margin-top: 100px;
+}
+
+footer {
+    background: #222;
+    grid-area: bottom;
+}
+
+
+/***************************/
+/* Accessories & Florishes */
+/***************************/
+::-webkit-scrollbar {
+    width: 16px;
+}
+
+::-webkit-scrollbar-thumb {
+    border: 4px solid transparent;
+    border-radius: 16px;
+    background-clip: padding-box;
+    min-height: 30px;
+}
+::-webkit-scrollbar-thumb {
+    background-color: hsla(0,0%,100%,.3);
+}
+
+/***************************/
+/* Part A: Left Navigation */
+/***************************/
+
+/* Your Code Here */
+aside {
+    padding-left: 20px;
+}
+aside > a {
+    padding-left: 20px;
+    margin: 10px;
+}
+
+.selected1{
+    border-left: 3px solid green;
+}
+
+/********************************/
+/* Part B: Header & Nav Styling */
+/********************************/
+
+/* Your Code Here */
+header {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    padding-right: 40px;
+    gap: 20px;
+    font-family: 'Calibri';
+    color: whitesmoke;
+    font-size: small;
+    border-radius: 10px;
+}
+
+#profile {
+    display: flex;
+    margin: 10px;
+    width: 80px;
+    height: 28px;
+    justify-content: center; 
+    align-items: center;
+    border-radius: 10px;
+    border: 5px solid transparent;
+    text-align: center;
+    background-color: #222222;
+
+}
+
+#upgrade {
+    display: flex;
+    margin: 10px;
+    width: 80px;
+    height: 28px;
+    border-radius: 30px;
+    border: 1px solid whitesmoke;
+    text-align: center;
+    color: whitesmoke;
+    font-size: small;
+    justify-content: center; 
+    align-items: center;
+}
+
+nav {
+    display: flex;
+    padding: 10px;
+    padding-top: 5px;
+    gap: 20px;
+    flex-direction: row;
+    font-family: 'Calibri';
+    color: whitesmoke;
+    font-size: xx-small;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.selected2{
+    border-bottom: 3px solid green;
+}
+
+/*************************/
+/* Part C: Artists Panel */
+/*************************/
+
+/* Your Code Here */
+article {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+    "A B C D E"
+    "F G H I J"; 
+    min-height: 100vh;
+    padding: 15px;
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+    font-family: 'Calibri';
+ }
+
+.artist-card img{
+    border-radius:50%;
+    width: 150px;
+}
+
+.artist-card {
+    border-radius: 10px;
+    background-color: #222222;
+    padding: 10px;
+    font-size: x-small;
+}
+
+.artist-card button{
+    display: none;
+}
+
+/**************************/
+/* Part D: Responsive UIs */
+/**************************/
+
+/* Your Code Here */
+@media only screen and (max-width: 1000px) {
+    article {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+        grid-template-areas: 
+        "A B C"
+        "D E F"
+        "G H I"
+        "J . ."; 
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    aside, #upgrade{
+        display: none;
+    }
+    body {
+        grid-template-columns: 0px auto;
+    }
+    header {
+        position: fixed;
+        width: 100vw;
+        left: 0px;
+    }
+    article {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-areas: 
+        "A B"
+        "C D"
+        "E F"
+        "G H"
+        "I J"; 
+    }
+}
+
+

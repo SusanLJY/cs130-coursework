@@ -132,7 +132,10 @@ header {
     border: 5px solid transparent;
     text-align: center;
     background-color: #222222;
+}
 
+#profile:hover {
+    background-color: #494949;
 }
 
 #upgrade {
@@ -141,12 +144,16 @@ header {
     width: 80px;
     height: 28px;
     border-radius: 30px;
-    border: 1px solid whitesmoke;
+    border: 1px solid darkgray;
     text-align: center;
     /* color: whitesmoke; */
     font-size: small;
     justify-content: center; 
     align-items: center;
+}
+
+#upgrade:hover {
+    border: 1px solid whitesmoke;
 }
 
 nav {
@@ -220,7 +227,6 @@ article {
     border: 1px solid transparent;
     background-color: green;
     color: white;
-    justify-content: right;
 }
 
 .artist-card:hover button{
@@ -268,13 +274,4 @@ article {
         "G H"
         "I J"; 
     }
-}
-
-/**************************/
-/* Part E: Hover Effects */
-/**************************/
-
-/* Your Code Here */
-a:hover {
-    color: rgb(255,255,255);
 }

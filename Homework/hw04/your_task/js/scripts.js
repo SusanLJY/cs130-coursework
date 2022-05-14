@@ -21,7 +21,7 @@ const getTracksHTML = (data) =>{
         return ``
     }
     return `
-    <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event)>
+    <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);">
         <img src="${data.album.image_url}">
         <i class="fas play-track fa-play" aria-hidden="true"></i>
         <div class="label">
@@ -121,7 +121,7 @@ const getArtistHTML = (data) => {
         `
     }
     return `
-    <section class="artist-card" id="${data.id}" onclick="handleArtistClick(event);>
+    <section class="artist-card" id="${data.id}" onclick="handleArtistClick(event);">
         <div>
             <img src="${data.image_url}">
             <h2>${data.name}</h2>

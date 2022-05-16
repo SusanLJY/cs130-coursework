@@ -1,0 +1,151 @@
+body * {
+   width: 100%;
+   box-sizing: border-box;
+}
+
+body {
+   margin: 0;
+   
+}
+
+#m, #y{
+   display: none;
+}
+
+.container {
+   background: #F8EDEB;
+   color: aliceblue;
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr 1fr;
+   grid-template-rows: 1fr 1.5fr 1fr 1fr 1fr;
+   grid-template-areas:
+      ". title title ."
+      "L years years R"
+      "jan feb mar apr"
+      "may jun jul aug"
+      "sep oct nov dec";
+   min-height: 100vh;
+   padding: 15px;
+   grid-row-gap: 5px;
+   grid-column-gap: 5px;
+}
+
+#welcome, #button, #month {
+   display: flex;
+   justify-content: center; 
+   align-items: center;
+   -webkit-appearance: button;
+   -moz-appearance: button;
+   appearance: button;
+}
+
+#welcome {
+   grid-area: title;
+   text-align: center;
+   font-size: x-large;
+   text-decoration: none;
+   background-color: #cb997e;
+   color: aliceblue;
+   font-weight: 300;
+   font-family: 'Montserrat', sans-serif;
+}
+
+#button{
+   font-size: 50px;
+   font-style: normal;
+   font-weight: 600;
+   color: #ddbea9;
+}
+
+.left {
+   grid-area: L;
+}
+
+.year-bar {
+   grid-area: years;
+   display: flex;
+   justify-items: space-around; 
+   align-items: center;
+   flex-direction: row;
+   background-color: #ddbea9;
+   font-family: 'Lato', sans-serif;
+   font-size: x-large;
+   font-weight: 900;
+}
+
+#prev, #curr, #next{
+   text-align: center;
+}
+
+.right {
+   grid-area: R;
+}
+
+#month{
+   font-size: xx-large;
+   font-family: 'Lato', sans-serif;
+   font-weight: 700;
+   font-style: italic;
+
+}
+
+.jan {
+   grid-area: jan;
+   background-color: #FF9985;
+}
+
+.feb {
+   grid-area: feb;
+   background-color: #FABDB2;
+}
+
+.mar {
+   grid-area: mar;
+   background-color: #F8D3B5;
+}
+
+.apr {
+   grid-area: apr;
+   background-color: #fec89a;
+}
+
+.may {
+   grid-area: may;
+   background-color: #FFB563;
+}
+
+.jun {
+   grid-area: jun;
+   background-color: #FFD29D;
+}
+
+.jul {
+   grid-area: jul;
+   background-color: #fdd692;
+}
+
+.aug {
+   grid-area: aug;
+   background-color: #ec7357;
+}
+
+.sep {
+   grid-area: sep;
+   background-color: #84a98c;
+}
+
+.oct {
+   grid-area: oct;
+   background-color: #606c38;
+}
+
+.nov {
+   grid-area: nov;
+   background-color: #0a9396;
+}
+
+.dec {
+   grid-area: dec;
+   background-color: #005f73;
+}
+

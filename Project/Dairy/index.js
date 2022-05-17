@@ -1,53 +1,109 @@
-let currentYear = 2022;
+const images = {
+    0: 'images/field1.jpg',
+    1: 'images/purple.jpg',
+    2: 'images/jar.jpg'
+};
 
-const showYear = () =>{
-    document.querySelector("#prev").textContent=currentYear-1;
-    document.querySelector("#curr").textContent=currentYear;
-    document.querySelector("#next").textContent=currentYear+1;
+let currentIndex = 1;
+
+const adjustIndex = (index) =>{
+    if (index < 0 ) {
+        index = Object.keys(images).length -1;
+    }else if (index >= Object.keys(images).length ) {
+        index = 0;
+    }
+    // console.log(index)
+    return index;
 }
 
-const showLeft = (ev) =>{
-    currentYear -=3;
-    showYear();
+const initScreen = () => {
+    thumbnailList = [currentIndex-1,currentIndex,currentIndex+1];
+    document.querySelector('.cards').innerHTML ="";
+    for (idx of thumbnailList){
+        idx = adjustIndex(idx);
+        document.querySelector('.cards').innerHTML += `
+        <li class="card">
+            <button class="image"
+                style="background-image:url('${images[idx]}')"
+                data-index="${idx}"
+                aria-label="Displays image ${idx} in the main panel."></button>
+        </li>`;
+    };
+};
+
+initScreen();
+
+const updateThumbnail = (ev) =>{
+    thumbnailList = [currentIndex-1,currentIndex,currentIndex+1];
+    for (idx of thumbnailList){
+        idx = adjustIndex(idx);
+        imageUrl = "url(\""+images[idx]+"\")";
+        document.querySelector("[data-index=\"" + idx + "\"]").style.backgroundImage = imageUrl;
+        console.log(imageUrl,currentIndex);
+    };
+    document.querySelector('.featured_image').style.backgroundImage = "url(\""+images[currentIndex]+"\")";
 }
 
-const showRight = (ev) =>{
-    currentYear +=3;
-    showYear();
+// Part 1: Thumbnail Click
+const showImage = (ev) => {
+    const elem = ev.currentTarget;
+    // console.log("Here!",elem.style.backgroundImage);
+    // Update 'currentIndex' when doing thumbnail click.
+    const imageUrl = elem.style.backgroundImage.slice(4, -1).replace(/"/g, "");
+    let index = 0;
+    for (e of Object.keys(images)) {
+        if (imageUrl == images[e]){
+            currentIndex = index;
+        }
+        index ++;
+    }
+    document.querySelector('.featured_image').style.backgroundImage = elem.style.backgroundImage;
+    updateThumbnail();
+};
+
+// attach event handler to all of the image tags 
+// (after initScreen() has been invoked).
+
+// first get all of the image elements from the DOM:
+const imageElements = document.querySelectorAll('.image');
+
+// then loop through each one and attach an event handler
+// to each element's click event:
+for (const elem of imageElements) {
+    elem.onclick = showImage;
 }
 
-const showPrev = (ev) =>{
-    currentYear -=1;
-    // console.log(currentYear);
-    showYear();
-}
 
-const showNext = (ev) =>{
-    currentYear +=1;
-    // console.log(currentYear);
-    showYear();
-}
+//Part 2: Next & Previous Buttons
+// currentIndex as a global variable:
 
-const passToCalendar = (ev) =>{
-    document.querySelector("#y").textContent=currentYear;
-    document.querySelector("#m").textContent=ev.currentTarget.className;
-    // console.log(document.querySelector("#y").textContent,document.querySelector("#m").textContent);
-    window.location.href = "../Calendar/calendar.html";
-}
 
-document.querySelector('.left').onclick = showLeft;
-document.querySelector('.right').onclick = showRight;
-document.querySelector('#prev').onclick = showPrev;
-document.querySelector('#next').onclick = showNext;
-document.querySelector('.jan').onclick = passToCalendar;
-document.querySelector('.feb').onclick = passToCalendar;
-document.querySelector('.mar').onclick = passToCalendar;
-document.querySelector('.apr').onclick = passToCalendar;
-document.querySelector('.may').onclick = passToCalendar;
-document.querySelector('.jun').onclick = passToCalendar;
-document.querySelector('.jul').onclick = passToCalendar;
-document.querySelector('.aug').onclick = passToCalendar;
-document.querySelector('.sep').onclick = passToCalendar;
-document.querySelector('.oct').onclick = passToCalendar;
-document.querySelector('.nov').onclick = passToCalendar;
-document.querySelector('.dec').onclick = passToCalendar;
+const showNext = (ev) => {
+    currentIndex += 1;
+    // console.log("currentIndex:", currentIndex);
+    currentIndex = adjustIndex(currentIndex);
+    // console.log("currentIndex:", currentIndex);
+    const elem = "url("+'"'+images[currentIndex]+'")';
+    // console.log("currentImage", elem);
+    document.querySelector('.featured_image').style.backgroundImage = elem;
+    updateThumbnail();
+};
+
+const showPrev = (ev) => {
+    currentIndex -= 1;
+    // console.log("currentIndex:", currentIndex);
+    currentIndex = adjustIndex(currentIndex);
+    // console.log("currentIndex:", currentIndex);
+    const elem = "url("+'"'+images[currentIndex]+'")';
+    // console.log("currentImage", elem);
+    document.querySelector('.featured_image').style.backgroundImage = elem;
+    updateThumbnail();
+};
+
+
+// // attach event handler to all of the image tags 
+// // (after initScreen() has been invoked).
+
+document.querySelector('.next').onclick = showNext;
+document.querySelector('.prev').onclick = showPrev;
+document.querySelector('.featured_image').onclick = showNext;

@@ -187,12 +187,18 @@ const getTrackPreview = (data) => {
     `
 };
 
+let currentTrack = null;
+
 const handleTrackClick = (ev) => {
-    // document.getElementsByClassName("player")[0].style.display = "block";
-    if (document.querySelector('div.player').hidden===true){
-        document.querySelector('div.player').hidden = false;
+
+    const previewUrl = ev.currentTarget.getAttribute('data-preview-track');
+    console.log(currentTrack,previewUrl);
+    if (currentTrack!==previewUrl){
+        if (document.querySelector('div.player').hidden===true){
+            document.querySelector('div.player').hidden = false;
+        }
         console.log('load a new track');
-        const previewUrl = ev.currentTarget.getAttribute('data-preview-track');
+        currentTrack=previewUrl;
         console.log(previewUrl);
         const elem = document.querySelector('#current-track');
         console.log(ev.currentTarget);

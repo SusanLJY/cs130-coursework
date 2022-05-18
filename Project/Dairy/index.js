@@ -38,7 +38,7 @@ const updateThumbnail = (ev) =>{
     for (idx of thumbnailList){
         idx = adjustIndex(idx);
         imageUrl = "url(\""+images[idx]+"\")";
-        document.querySelector("[data-index=\"" + idx + "\"]").style.backgroundImage = imageUrl;
+        document.querySelector("[data-index=\"" + CSS.escape(idx) + "\"]").style.backgroundImage = imageUrl;
         console.log(imageUrl,currentIndex);
     };
     document.querySelector('.featured_image').style.backgroundImage = "url(\""+images[currentIndex]+"\")";

@@ -1,8 +1,10 @@
 const baseURL = 'https://www.apitutor.org/spotify/simple/v1/search';
+const advURL = ' https://www.apitutor.org/spotify/v1/';
 
 // Note: AudioPlayer is defined in audio-player.js
 const audioFile = 'https://p.scdn.co/mp3-preview/bfead324ff26bdd67bb793114f7ad3a7b328a48e?cid=9697a3a271d24deea38f8b7fbfa0e13c';
 const audioPlayer = AudioPlayer('.player', audioFile);
+
 
 const search = (ev) => {
     const term = document.querySelector('#search').value;
@@ -17,21 +19,33 @@ const search = (ev) => {
 }
 
 const getTracksHTML = (data) =>{
-    if (!data.preview_url){
+    console.log(data);
+    if (!data.name){
         return ``
-    }
-    return `
-    <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);">
+    }else if (!data.preview_url){
+        return `<button class="track-item preview" data-preview-track="null">
         <img src="${data.album.image_url}">
-        <i class="fas play-track fa-play" aria-hidden="true"></i>
+
         <div class="label">
             <h2>${data.album.name}</h2>
             <p>
-                ${data.artist.name}
+                ${data.artist.name} (no preview available)
             </p>
         </div>
-    </button>
-    `
+    </button>`
+    }else{
+        return `
+        <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);">
+            <img src="${data.album.image_url}">
+            <i class="fas play-track fa-play" aria-hidden="true"></i>
+            <div class="label">
+                <h2>${data.album.name}</h2>
+                <p>
+                    ${data.artist.name}
+                </p>
+            </div>
+        </button>
+    `}
 };
 
 const getTracks = (term) => {
@@ -75,7 +89,7 @@ const getAlbumsHTML = (data) =>{
         `
     }
     return `
-    <section class="album-card" id="${data.id}">
+    <section class="album-card" id="${data.id}" onclick="handleAlbumClick(event);">
         <div>
             <img src="${data.image_url}">
             <h2>${data.name}</h2>
@@ -174,30 +188,114 @@ const getTrackPreview = (data) => {
 };
 
 const handleTrackClick = (ev) => {
-    const previewUrl = ev.currentTarget.getAttribute('data-preview-track');
-    console.log(previewUrl);
-    const elem = document.querySelector('#current-track');
-    console.log(ev.currentTarget);
-    //console.log(ev.currentTarget.getElementsByTagName('h2')[0].innerHTML);
-    elem.innerHTML = "";
-    elem.innerHTML += getTrackPreview(ev.currentTarget);
-    audioPlayer.setAudioFile(previewUrl);
-    audioPlayer.play();
+    // document.getElementsByClassName("player")[0].style.display = "block";
+    if (document.querySelector('div.player').hidden===true){
+        document.querySelector('div.player').hidden = false;
+        console.log('load a new track');
+        const previewUrl = ev.currentTarget.getAttribute('data-preview-track');
+        console.log(previewUrl);
+        const elem = document.querySelector('#current-track');
+        console.log(ev.currentTarget);
+        elem.innerHTML = "";
+        elem.innerHTML += getTrackPreview(ev.currentTarget);
+        audioPlayer.setAudioFile(previewUrl);
+    }
+    
+    if (audioPlayer.isPaused()){
+        audioPlayer.play();
+    }else{
+        audioPlayer.pause();
+    }
+    console.log(audioPlayer.isPaused());
+};
+
+const getTopTracksHTML = (data) =>{
+    if (!data.preview_url){
+        return ``
+    }
+    return `
+    <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);">
+        <img src="${data.album.images[2].url}">
+        <i class="fas play-track fa-play" aria-hidden="true"></i>
+        <div class="label">
+            <h2>${data.album.name}</h2>
+            <p>
+                ${data.artists[0].name}
+            </p>
+        </div>
+    </button>
+    `
 };
 
 const handleArtistClick = (ev) => {
-    // const previewUrl = ev.currentTarget.getAttribute('data-preview-track');
-    // console.log(previewUrl);
-    // const elem = document.querySelector('#current-track');
-    // console.log(ev.currentTarget);
-    // //console.log(ev.currentTarget.getElementsByTagName('h2')[0].innerHTML);
-    // elem.innerHTML = "";
-    // elem.innerHTML += getTrackPreview(ev.currentTarget);
-    // audioPlayer.setAudioFile(previewUrl);
-    // audioPlayer.play();
+    console.log('Artist click');
+    term = ev.currentTarget.id;
+    const elem = document.querySelector('#tracks');
+    elem.innerHTML = ""; 
+    fetch(advURL+'artists/'+term+'/top-tracks?country=us')
+        .then(response => response.json()) 
+        .then(data => {
+            // console.log(data,Object.keys(data));
+            if (Object.keys(data).length > 0){
+                const topTracks = data['tracks'];
+                for (const track of Object.keys(topTracks)){
+                    elem.innerHTML += getTopTracksHTML(topTracks[track]); 
+                }
+            } else {
+                `<section class="track-card" id="no-matching-result">
+                    <div>
+                        <h2>No tracks found that match your search criteria.</h2>
+                    </div>
+                </section>`
+            }
+        })
 };
 
-document
+const getAlbumTracksHTML = (data,image_url) =>{
+    if (!data.preview_url){
+        return ``
+    }
+    // <img src="${image_url}">
+    return `
+    <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);">
+        <p>No available pictures</p>
+        <i class="fas play-track fa-play" aria-hidden="true"></i>
+        <div class="label">
+            <h2>${data.name}</h2>
+            <p>
+                ${data.artists[0].name}
+            </p>
+        </div>
+    </button>
+    `
+};
+
+const handleAlbumClick = (ev) => {
+    console.log("Album click");
+    term = ev.currentTarget.id;
+    // img = document.getElementById(term);
+    // console.log(term,img,ev.currentTarget);
+    const elem = document.querySelector('#tracks');
+    elem.innerHTML = ""; 
+    fetch(advURL+'albums/'+term+'/tracks')
+        .then(response => response.json()) 
+        .then(data => {
+            console.log(data,Object.keys(data));
+            if (Object.keys(data).length > 0){
+                const topTracks = data['items'].slice(0,5);
+                for (const track of Object.keys(topTracks)){
+                    elem.innerHTML += getAlbumTracksHTML(topTracks[track]); 
+                }
+            } else {
+                `<section class="track-card" id="no-matching-result">
+                    <div>
+                        <h2>No tracks found that match your search criteria.</h2>
+                    </div>
+                </section>`
+            }
+        })
+};
+
 
 // onkeyup: once take the key off the button.
 document.querySelector('#search').onkeyup = (ev) => {

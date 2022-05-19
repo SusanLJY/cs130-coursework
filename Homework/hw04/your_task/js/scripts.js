@@ -23,8 +23,8 @@ const getTracksHTML = (data) =>{
     if (!data.name){
         return ``
     }else if (!data.preview_url){
-        return `<button class="track-item preview" data-preview-track="null">
-        <img src="${data.album.image_url}">
+        return `<button class="track-item preview" data-preview-track="null" aria-label="Tracks">
+        <img src="${data.album.image_url}"   alt="Album cover of ${data.album.name}">
 
         <div class="label">
             <h2>${data.album.name}</h2>
@@ -35,8 +35,8 @@ const getTracksHTML = (data) =>{
     </button>`
     }else{
         return `
-        <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);">
-            <img src="${data.album.image_url}">
+        <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);" tabindex="0" aria-label="Tracks">
+            <img src="${data.album.image_url}" alt="Album cover of ${data.album.name}">
             <i class="fas play-track fa-play" aria-hidden="true"></i>
             <div class="label">
                 <h2>${data.album.name}</h2>
@@ -61,6 +61,7 @@ const getTracks = (term) => {
     //wait for the response come back from the URL inside fetch.
         .then(response => response.json()) //response is the data we get back from the fetch URL. json turns the data into a list which can be manipulate in js.
         .then(data => {
+            // console.log(data);
             if (data.length > 0){
                 const firstFiveTracks = data.slice(0,5);
                 for (const track of firstFiveTracks){
@@ -89,9 +90,9 @@ const getAlbumsHTML = (data) =>{
         `
     }
     return `
-    <section class="album-card" id="${data.id}" onclick="handleAlbumClick(event);">
+    <section class="album-card" id="${data.id}" onclick="handleAlbumClick(event);" tabindex="0"  aria-label="Albums">
         <div class="image-store" id="${data.image_url}">
-            <img src="${data.image_url}">
+            <img src="${data.image_url}"  alt="Album cover of ${data.name}">
             <h2>${data.name}</h2>
             <div class="footer">
                 <a href="${data.spotify_url}" target="_blank">
@@ -135,9 +136,9 @@ const getArtistHTML = (data) => {
         `
     }
     return `
-    <section class="artist-card" id="${data.id}" onclick="handleArtistClick(event);">
+    <section class="artist-card" id="${data.id}" onclick="handleArtistClick(event);" tabindex="0" aria-label="Artists">
         <div>
-            <img src="${data.image_url}">
+            <img src="${data.image_url}"  alt="Photo of ${data.name}">
             <h2>${data.name}</h2>
             <div class="footer">
                 <a href="${data.spotify_url}" target="_blank">
@@ -177,7 +178,7 @@ const getTrackPreview = (data) => {
 
     }
     return `
-    <img src="${data.getElementsByTagName('img')[0].src}">
+    <img src="${data.getElementsByTagName('img')[0].src}" alt="Album cover of ${data.getElementsByTagName('h2')[0].innerHTML}">
     <i class="fas play-track fa-pause" aria-hidden="true"></i>
     <div class="label">
         <h2>${data.getElementsByTagName('h2')[0].innerHTML}</h2>
@@ -216,22 +217,32 @@ const handleTrackClick = (ev) => {
     console.log(audioPlayer.isPaused());
 };
 
-const getTopTracksHTML = (data) =>{
-    if (!data.preview_url){
+const getTopTracksHTML = (data,nameList) =>{
+    if (!data.name){
         return ``
-    }
+    }else if (!data.preview_url){
+        return `<button class="track-item preview" data-preview-track="null" aria-label="Tracks">
+        <img src="${data.album.images[2].url}"  alt="Album cover of ${data.name}">
+        <div class="label">
+            <h2>${data.album.name}</h2>
+            <p>
+                ${nameList} (no preview available)
+            </p>
+        </div>
+    </button>`
+    }else{  
     return `
-    <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);">
-        <img src="${data.album.images[2].url}">
+    <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);" tabindex="0" aria-label="Tracks">
+        <img src="${data.album.images[2].url}"  alt="Album cover of ${data.name}">
         <i class="fas play-track fa-play" aria-hidden="true"></i>
         <div class="label">
             <h2>${data.album.name}</h2>
             <p>
-                ${data.artists[0].name}
+                ${nameList}
             </p>
         </div>
     </button>
-    `
+    `}
 };
 
 const handleArtistClick = (ev) => {
@@ -244,9 +255,15 @@ const handleArtistClick = (ev) => {
         .then(data => {
             // console.log(data,Object.keys(data));
             if (Object.keys(data).length > 0){
-                const topTracks = data['tracks'];
+                const topTracks = data['tracks'].slice(0,5);
                 for (const track of Object.keys(topTracks)){
-                    elem.innerHTML += getTopTracksHTML(topTracks[track]); 
+                    nameList="";
+                    for (const artist of topTracks[track].artists){
+                        nameList+=artist.name;
+                        nameList+=", ";
+                    }
+                    nameList=nameList.slice(0,-2);
+                    elem.innerHTML += getTopTracksHTML(topTracks[track],nameList); 
                 }
             } else {
                 `<section class="track-card" id="no-matching-result">
@@ -258,41 +275,37 @@ const handleArtistClick = (ev) => {
         })
 };
 
-const getAlbumTracksHTML = (data,image_url) =>{
+const getAlbumTracksHTML = (data,nameList,image_url) =>{
     if (!data.name){
         return ``
     }else if (!data.preview_url){
-        return `<button class="track-item preview" data-preview-track="null">
-        <img src="${image_url}">
+        return `<button class="track-item preview" data-preview-track="null" aria-label="Tracks">
+        <img src="${image_url}" alt="Album cover of ${data.name}">
         <div class="label">
             <h2>${data.name}</h2>
             <p>
-                ${data.artists[0].name}(no preview available)
+                ${nameList} (no preview available)
             </p>
         </div>
     </button>`
     }else{    
-    // <img src="${image_url}">
-    return `
-    <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);">
-        <img src="${image_url}">
-        <i class="fas play-track fa-play" aria-hidden="true"></i>
-        <div class="label">
-            <h2>${data.name}</h2>
-            <p>
-                ${data.artists[0].name}
-            </p>
-        </div>
-    </button>
-    `}
+    return `<button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);" tabindex="0" aria-label="Tracks">
+            <img src="${image_url}"  alt="Album cover of ${data.name}">
+            <i class="fas play-track fa-play" aria-hidden="true"></i>
+            <div class="label">
+                <h2>${data.name}</h2>
+                <p>
+                    ${nameList}
+                </p>
+            </div>
+        </button>`
+    }
 };
 
 
 const handleAlbumClick = (ev) => {
     console.log("Album click");
     term = ev.currentTarget.id;
-    // img = document.getElementById(term);
-    // console.log(term,img,ev.currentTarget);
     const elem = document.querySelector('#tracks');
     elem.innerHTML = ""; 
     albumImage=ev.currentTarget.getElementsByClassName("image-store")[0].id;
@@ -304,7 +317,13 @@ const handleAlbumClick = (ev) => {
             if (Object.keys(data).length > 0){
                 const topTracks = data['items'].slice(0,5);
                 for (const track of Object.keys(topTracks)){
-                    elem.innerHTML += getAlbumTracksHTML(topTracks[track],albumImage); 
+                    nameList="";
+                    for (const artist of topTracks[track].artists){
+                        nameList+=artist.name;
+                        nameList+=", ";
+                    }
+                    nameList=nameList.slice(0,-2);
+                    elem.innerHTML += getAlbumTracksHTML(topTracks[track],nameList, albumImage); 
                 }
             } else {
                 `<section class="track-card" id="no-matching-result">

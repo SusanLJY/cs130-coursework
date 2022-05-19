@@ -19,7 +19,7 @@ const search = (ev) => {
 }
 
 const getTracksHTML = (data) =>{
-    console.log(data);
+    // console.log(data);
     if (!data.name){
         return ``
     }else if (!data.preview_url){
@@ -90,7 +90,7 @@ const getAlbumsHTML = (data) =>{
     }
     return `
     <section class="album-card" id="${data.id}" onclick="handleAlbumClick(event);">
-        <div>
+        <div class="image-store" id="${data.image_url}">
             <img src="${data.image_url}">
             <h2>${data.name}</h2>
             <div class="footer">
@@ -171,6 +171,7 @@ const getArtist = (term) => {
 
 };
 
+
 const getTrackPreview = (data) => {
     if (!data.getAttribute('data-preview-track')){
 
@@ -203,7 +204,7 @@ const handleTrackClick = (ev) => {
         const elem = document.querySelector('#current-track');
         console.log(ev.currentTarget);
         elem.innerHTML = "";
-        elem.innerHTML += getTrackPreview(ev.currentTarget);
+        elem.innerHTML += getTrackPreview(ev.currentTarget,null);
         audioPlayer.setAudioFile(previewUrl);
     }
     
@@ -258,13 +259,23 @@ const handleArtistClick = (ev) => {
 };
 
 const getAlbumTracksHTML = (data,image_url) =>{
-    if (!data.preview_url){
+    if (!data.name){
         return ``
-    }
+    }else if (!data.preview_url){
+        return `<button class="track-item preview" data-preview-track="null">
+        <img src="${image_url}">
+        <div class="label">
+            <h2>${data.name}</h2>
+            <p>
+                ${data.artists[0].name}(no preview available)
+            </p>
+        </div>
+    </button>`
+    }else{    
     // <img src="${image_url}">
     return `
     <button class="track-item preview" data-preview-track="${data.preview_url}" onclick="handleTrackClick(event);">
-        <p>No available pictures</p>
+        <img src="${image_url}">
         <i class="fas play-track fa-play" aria-hidden="true"></i>
         <div class="label">
             <h2>${data.name}</h2>
@@ -273,8 +284,9 @@ const getAlbumTracksHTML = (data,image_url) =>{
             </p>
         </div>
     </button>
-    `
+    `}
 };
+
 
 const handleAlbumClick = (ev) => {
     console.log("Album click");
@@ -283,14 +295,16 @@ const handleAlbumClick = (ev) => {
     // console.log(term,img,ev.currentTarget);
     const elem = document.querySelector('#tracks');
     elem.innerHTML = ""; 
+    albumImage=ev.currentTarget.getElementsByClassName("image-store")[0].id;
+    console.log("showurl",albumImage);
     fetch(advURL+'albums/'+term+'/tracks')
         .then(response => response.json()) 
         .then(data => {
-            console.log(data,Object.keys(data));
+            console.log(data);
             if (Object.keys(data).length > 0){
                 const topTracks = data['items'].slice(0,5);
                 for (const track of Object.keys(topTracks)){
-                    elem.innerHTML += getAlbumTracksHTML(topTracks[track]); 
+                    elem.innerHTML += getAlbumTracksHTML(topTracks[track],albumImage); 
                 }
             } else {
                 `<section class="track-card" id="no-matching-result">

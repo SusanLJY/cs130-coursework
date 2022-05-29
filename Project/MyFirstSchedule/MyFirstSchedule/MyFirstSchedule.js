@@ -11,12 +11,15 @@ calendar.headerClick.addEventListener(handleHeaderClick);
 //visualize the calendar
 calendar.render();
 
+
+
 function handleHeaderClick(sender, args)
 {
 	if(sender.currentView === p.CalendarView.Timetable)
 	{
 		sender.date = sender.timetableSettings.dates.items()[0];
 		sender.currentView = p.CalendarView.SingleMonth;
+		
 	}
 }
 

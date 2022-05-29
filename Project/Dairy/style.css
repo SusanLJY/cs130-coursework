@@ -52,6 +52,7 @@ body {
 .date{
    grid-area: date;
    background-color: #ddbea9;
+   
 }
 
 
@@ -134,15 +135,15 @@ body {
    display: flex;
    flex-wrap: wrap;
    margin: 0;
-   padding-left: 10px;
+   padding-left: 125px;
    padding-top: 10px;
    list-style: none;
 }
 .card {
-   width: 12.5%;
+   width: 25%;
    height: 20vh;
-   padding-bottom: 10px;
-   padding-right: 10px;
+   padding-bottom: 0px;
+   padding-right: 20px;
 }
 .image {
    background-size: cover;

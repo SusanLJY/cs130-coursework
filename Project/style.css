@@ -10,11 +10,11 @@ body {
 
 .container {
    display: grid;
-   grid-template-columns: 1fr 1fr 1fr 1fr;
-   grid-template-rows: 1fr 2.5fr 0.8fr;
+   grid-template-columns: 0.5fr 1fr 1fr 0.5fr;
+   grid-template-rows: 0.75fr 2.5fr 0.8fr;
    grid-template-areas: 
    "A A . ."
-   ". B B B"
+   ". B B ."
    ". . C C"; 
    min-height: 100vh;
    padding: 50px;
@@ -26,24 +26,27 @@ body {
 
 article, aside, section, main, section > div{
    display: flex;
-   font-family: 'Arial';
    justify-content: center;
    align-items: center;
 }
 
 .welcome-title {
    grid-area: A;
-   background-color: #6b705c;
+   background-color: #DDBEA9;
    color: aliceblue;
+   font-family: 'Montserrat', sans-serif;
+   font-size: xx-large;
 }
 
 .introduction {
    grid-area: B;
-   background-color: #a5a58d;
+   background-color: #CB997E;
    color: aliceblue;
    padding-top: 20px;
+   padding-left: 20px;
    flex-direction: column;
    justify-content: space-between;
+   font-family: 'Montserrat', sans-serif;
 }
 
 .to-coverpage {
@@ -51,6 +54,8 @@ article, aside, section, main, section > div{
    background-color: #b7b7a4;
    color: aliceblue;
    box-shadow: 10px 5px 5px #6b705c;
+   padding-left: 30px;
+   font-family: 'Montserrat', sans-serif;
 }
 
 a.button {
@@ -62,9 +67,15 @@ a.button {
    color: initial;
 }
 
+#div-head {
+   text-align: right;
+   padding-top: 20px;
+   font-style: bold;
+   font-size: x-large;
+}
 
 #div-foot {
    text-align: right;
-   padding-right: 10px;
+   padding-right: 20px;
    font-style: italic;
 }

@@ -16,7 +16,24 @@ const adjustIndex = (index) =>{
     return index;
 }
 
+mapping = {
+    0: "Jan",
+    1: "Feb",
+    2: "Mar",
+    3: "Apr",
+    4: "May",
+    5: "Jun",
+    6: "Jul",
+    7: "Aug",
+    8: "Sep",
+    9: "Oct",
+    10: "Nov",
+    11: "Dec",
+}
+
 const initScreen = () => {
+    console.log(window.localStorage.getItem('DairyTargetDate'));
+    console.log("Before", window.localStorage.getItem('targetDate'));
     thumbnailList = [currentIndex-1,currentIndex,currentIndex+1];
     document.querySelector('.cards').innerHTML ="";
     for (idx of thumbnailList){
@@ -29,6 +46,12 @@ const initScreen = () => {
                 aria-label="Displays image ${idx} in the main panel."></button>
         </li>`;
     };
+    getTargetDate = window.localStorage.getItem('DairyTargetDate')
+    dairyTargetDate = JSON.parse(getTargetDate);
+    console.log(dairyTargetDate);
+    document.querySelector('.date').textContent = `${dairyTargetDate.year} ${mapping[dairyTargetDate.month]} ${dairyTargetDate.day}`;
+    window.localStorage.setItem('targetDate', getTargetDate);
+    console.log("After", window.localStorage.getItem('targetDate'));
 };
 
 initScreen();

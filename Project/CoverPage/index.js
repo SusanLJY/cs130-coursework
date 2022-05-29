@@ -28,12 +28,40 @@ const showNext = (ev) =>{
     showYear();
 }
 
-const passToCalendar = (ev) =>{
-    document.querySelector("#y").textContent=currentYear;
-    document.querySelector("#m").textContent=ev.currentTarget.className;
-    // console.log(document.querySelector("#y").textContent,document.querySelector("#m").textContent);
-    window.location.href = "../Calendar/calendar.html";
+mapping = {
+    jan: 0,
+    feb: 1,
+    mar: 2,
+    apr: 3,
+    may: 4,
+    jun: 5,
+    jul: 6,
+    aug: 7,
+    sep: 8,
+    oct: 9,
+    nov: 10,
+    dec: 11,
 }
+
+const targetDate = {
+    month: 0,
+    year: 2022,
+}
+
+const passToCalendar = (ev) =>{
+
+    // document.querySelector("#y").textContent=currentYear;
+    // document.querySelector("#m").textContent=mapping[ev.currentTarget.className];
+    // console.log(document.querySelector("#y").textContent,document.querySelector("#m").textContent);
+    targetDate.month = mapping[ev.currentTarget.className];
+    targetDate.year = currentYear;
+    console.log(targetDate);
+    window.localStorage.setItem('targetDate', JSON.stringify(targetDate));
+
+    window.location.href = "../FirstSchedule/FirstSchedule.html";
+}
+
+
 
 document.querySelector('.left').onclick = showLeft;
 document.querySelector('.right').onclick = showRight;

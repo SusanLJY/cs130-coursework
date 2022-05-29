@@ -17,23 +17,23 @@ const adjustIndex = (index) =>{
 }
 
 mapping = {
-    0: "Jan",
-    1: "Feb",
-    2: "Mar",
-    3: "Apr",
+    0: "January",
+    1: "February",
+    2: "March",
+    3: "April",
     4: "May",
-    5: "Jun",
-    6: "Jul",
-    7: "Aug",
-    8: "Sep",
-    9: "Oct",
-    10: "Nov",
-    11: "Dec",
+    5: "June",
+    6: "July",
+    7: "August",
+    8: "September",
+    9: "October",
+    10: "November",
+    11: "December",
 }
 
 const initScreen = () => {
-    console.log(window.localStorage.getItem('DairyTargetDate'));
-    console.log("Before", window.localStorage.getItem('targetDate'));
+    // console.log(window.localStorage.getItem('DairyTargetDate'));
+    // console.log("Before", window.localStorage.getItem('targetDate'));
     thumbnailList = [currentIndex-1,currentIndex,currentIndex+1];
     document.querySelector('.cards').innerHTML ="";
     for (idx of thumbnailList){
@@ -48,10 +48,10 @@ const initScreen = () => {
     };
     getTargetDate = window.localStorage.getItem('DairyTargetDate')
     dairyTargetDate = JSON.parse(getTargetDate);
-    console.log(dairyTargetDate);
+    // console.log(dairyTargetDate);
     document.querySelector('.date').textContent = `${dairyTargetDate.year} ${mapping[dairyTargetDate.month]} ${dairyTargetDate.day}`;
     window.localStorage.setItem('targetDate', getTargetDate);
-    console.log("After", window.localStorage.getItem('targetDate'));
+    // console.log("After", window.localStorage.getItem('targetDate'));
 };
 
 initScreen();
@@ -62,7 +62,7 @@ const updateThumbnail = (ev) =>{
         idx = adjustIndex(idx);
         imageUrl = "url(\""+images[idx]+"\")";
         document.querySelector("[data-index=\"" + CSS.escape(idx) + "\"]").style.backgroundImage = imageUrl;
-        console.log(imageUrl,currentIndex);
+        // console.log(imageUrl,currentIndex);
     };
     document.querySelector('.featured_image').style.backgroundImage = "url(\""+images[currentIndex]+"\")";
 }
@@ -123,6 +123,28 @@ const showPrev = (ev) => {
     updateThumbnail();
 };
 
+const image_input = document.querySelector('#file-upload');
+var upload_image ="";
+
+image_input.addEventListener("change", function(){
+    upload_image = image_input.value.split('fakepath\\')[1];
+    images[currentIndex] = 'images/'+upload_image;
+    console.log(images);
+    updateImage();
+    // const reader = new FileReader();
+    // reader.addEventListener("load", () =>{
+    //     upload_image = reader.result;
+    //     console.log(`url(${upload_image})`);
+
+    // })
+    // reader.readAsDataURL(this.files[0]);
+
+})
+
+const updateImage = () =>{
+    document.querySelector('.featured_image').style.backgroundImage = `url('${images[currentIndex]}')`;
+    updateThumbnail();
+}
 
 // // attach event handler to all of the image tags 
 // // (after initScreen() has been invoked).

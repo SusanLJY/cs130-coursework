@@ -5,36 +5,44 @@
    <meta charset="UTF-8">
    <title>Dairy</title>
    <link rel="stylesheet" href="./style.css">
-   <script type="text/javascript" src="index.js" defer></script>
+   <script type="text/javascript" src="index.js" defer></script>   
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,700&display=swap" rel="stylesheet"> 
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@1,700&family=Montserrat:wght@300&display=swap" rel="stylesheet">
 </head>
 
 <body>
    <div class="container">
-      <a href="../CoverPage/index.html" id="back-to-main">Main Menu</a>
+      <a href="../CoverPage/index.html" class="back-to-main" id="button">Main Menu</a>
       
       <textarea class="textarea">Input your text here!</textarea>
       
-      <a href="../FirstSchedule/FirstSchedule.html" class="date">2022 May 22</a>
+      <a href="../FirstSchedule/FirstSchedule.html" class="date" id="button">2022 May 22</a>
 
 
     <div class="image">
-        <i class="upload" id="button">Upload Image</i>
-        <div class="image-display">
-            <!-- preview panel -->
-            <section class="preview_box">
-                <div class="featured_image" style="background-image:url('./images/field1.jpg')"></div>
-                <button class="prev">&lsaquo;</button>
-                <button class="next">&rsaquo;</button>
-            </section>
+      <i class="save" id="button">Save Dairy</i>
+      <!-- <i class="upload" id="button">Upload Image</i> -->
+      <div class="upload">
+         <label for="file-upload" class="choose-file">
+            Upload Image
+        </label>
+        <input id="file-upload" type="file" accept="image/*"/>
+         
+      </div>
+      <div class="image-display">
+         <!-- preview panel -->
+         <section class="preview_box">
+               <div class="featured_image" style="background-image:url('./images/field1.jpg')"></div>
+               <button class="prev">&lsaquo;</button>
+               <button class="next">&rsaquo;</button>
+         </section>
 
-        <!-- thumbnails -->
-        <ul class="cards">
-        </ul>
-        </div>
+      <!-- thumbnails -->
+      <ul class="cards">
+      </ul>
+      </div>
 
       </div>
 

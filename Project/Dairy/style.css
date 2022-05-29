@@ -16,7 +16,7 @@ body {
    background: #F8EDEB;
    color: aliceblue;
    display: grid;
-   grid-template-columns: 50% 50%;
+   grid-template-columns: 1fr 1fr;
    grid-template-rows: 50px auto;
    grid-template-areas:
       "date menu"
@@ -27,7 +27,13 @@ body {
    grid-column-gap: 15px;
 }
 
-#back-to-main, .date, .upload {
+#button {
+   -webkit-appearance: button;
+   -moz-appearance: button;
+   appearance: button;
+}
+
+.back-to-main, .date,.save, .upload{
    display: flex;
    justify-content: center; 
    align-items: center;
@@ -38,15 +44,12 @@ body {
    color: aliceblue;
    font-weight: 300;
    font-family: 'Montserrat', sans-serif;
-
-   -webkit-appearance: button;
-   -moz-appearance: button;
-   appearance: button;
 }
 
-#back-to-main {
+.back-to-main {
    grid-area: menu;
    background-color: #cb997e;
+   margin-right: 10px;
 }
 
 .date{
@@ -73,18 +76,35 @@ body {
       color: aliceblue;
       display: grid;
       grid-template-columns: 1fr;
-      grid-template-rows: 20px auto 20vh;
+      grid-template-rows: 25px 25px auto 20vh;
       grid-template-areas:
+         "save"
          "upload"
          "display"
          "thumbnail";
-      padding: 15px;
-      grid-row-gap: 20px;
+
+      grid-row-gap: 10px;
       grid-column-gap: 15px;
 }
 
 .upload {
    grid-area: upload;
+   background-color: #ddbea9;
+   font-size: medium;
+   text-align: center;
+}
+
+input[type="file"] {
+   display: none;
+}
+.choose-file {
+   display: inline-block;
+   border: none;
+   cursor: pointer;
+}
+
+.save {
+   grid-area: save;
    background-color: #ddbea9;
    font-size: medium;
 }
@@ -135,7 +155,8 @@ body {
    display: flex;
    flex-wrap: wrap;
    margin: 0;
-   padding-left: 125px;
+   align-items: center;
+   justify-content: center;
    padding-top: 10px;
    list-style: none;
 }
@@ -143,7 +164,7 @@ body {
    width: 25%;
    height: 20vh;
    padding-bottom: 0px;
-   padding-right: 20px;
+   padding-right: 10px;
 }
 .image {
    background-size: cover;
@@ -157,6 +178,6 @@ body {
    border: solid 5px black;
 }
 
-/* .image:hover {
+.card:hover {
    opacity: 0.7;
-} */
+}

@@ -33,7 +33,7 @@ body {
    appearance: button;
 }
 
-.back-to-main, .date,.save, .upload{
+.back-to-main, .date,.save, .upload, .load{
    display: flex;
    justify-content: center; 
    align-items: center;
@@ -78,7 +78,7 @@ body {
       grid-template-columns: 1fr;
       grid-template-rows: 25px 25px auto 20vh;
       grid-template-areas:
-         "save"
+         "save-load"
          "upload"
          "display"
          "thumbnail";
@@ -103,8 +103,26 @@ input[type="file"] {
    cursor: pointer;
 }
 
+.save-load {
+   grid-area: save-load;
+   background: #F8EDEB;
+   color: aliceblue;
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   grid-template-rows: 25px;
+   grid-template-areas:
+      "save load";
+   grid-column-gap: 15px;
+}
+
 .save {
    grid-area: save;
+   background-color: #ddbea9;
+   font-size: medium;
+}
+
+.load {
+   grid-area: load;
    background-color: #ddbea9;
    font-size: medium;
 }

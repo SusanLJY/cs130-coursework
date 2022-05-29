@@ -34,16 +34,33 @@ const targetDate = {
     year: 2022,
 }
 
+const daysOfMonth = (month, year) => {
+	days = 28;
+	if (month==2){
+		if (year%4==0){days+=1}
+	}else if (month <=7){
+		if (month%2==0){days+=2}
+		else {days+=3}
+	}else{
+		if (month%2==0){days+=3}
+		else{days+=2}
+	}
+	return days;
+}
+
 function validateCreateItem(sender, args) {
     //checks if an item from calendar is being modified
-    console.log()
+
     if ((args.item.subject == "")) {
         // alert("HERE!");
         alert("Events cannot be be empty!");
         args.cancel = true;
     }
     let checkDairy = args.item.subject.toLowerCase();
-    if (checkDairy.includes("dairy") && args.item.startTime.day == (args.item.endTime.day-1) && args.item.startTime.month == args.item.endTime.month){
+    if (checkDairy.includes("dairy") && 
+        ((args.item.startTime.day == (args.item.endTime.day-1) && args.item.startTime.month == args.item.endTime.month) || 
+        (args.item.startTime.day == args.item.startTime.daysInMonth && args.item.endTime.day==1 && args.item.startTime.month == (args.item.endTime.month-1)))){
+
         var answer = window.confirm("SEE TODAY'S DAIRY?");
         if (answer) {
             args.cancel = true;

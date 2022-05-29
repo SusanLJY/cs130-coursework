@@ -1,4 +1,5 @@
-const images = {
+// Part I: Images
+let images = {
     0: 'images/field1.jpg',
     1: 'images/purple.jpg',
     2: 'images/jar.jpg'
@@ -16,7 +17,7 @@ const adjustIndex = (index) =>{
     return index;
 }
 
-mapping = {
+const mapping = {
     0: "January",
     1: "February",
     2: "March",
@@ -31,9 +32,11 @@ mapping = {
     11: "December",
 }
 
+getTargetDate = window.localStorage.getItem('DairyTargetDate')
+dairyTargetDate = JSON.parse(getTargetDate);
+
 const initScreen = () => {
-    // console.log(window.localStorage.getItem('DairyTargetDate'));
-    // console.log("Before", window.localStorage.getItem('targetDate'));
+
     thumbnailList = [currentIndex-1,currentIndex,currentIndex+1];
     document.querySelector('.cards').innerHTML ="";
     for (idx of thumbnailList){
@@ -46,8 +49,6 @@ const initScreen = () => {
                 aria-label="Displays image ${idx} in the main panel."></button>
         </li>`;
     };
-    getTargetDate = window.localStorage.getItem('DairyTargetDate')
-    dairyTargetDate = JSON.parse(getTargetDate);
     // console.log(dairyTargetDate);
     document.querySelector('.date').textContent = `${dairyTargetDate.year} ${mapping[dairyTargetDate.month]} ${dairyTargetDate.day}`;
     window.localStorage.setItem('targetDate', getTargetDate);
@@ -128,9 +129,11 @@ var upload_image ="";
 
 image_input.addEventListener("change", function(){
     upload_image = image_input.value.split('fakepath\\')[1];
-    images[currentIndex] = 'images/'+upload_image;
-    console.log(images);
-    updateImage();
+    if (upload_image){
+        images[currentIndex] = 'images/'+upload_image;
+        updateImage();
+    }
+    console.log(images, upload_image);
     // const reader = new FileReader();
     // reader.addEventListener("load", () =>{
     //     upload_image = reader.result;
@@ -146,9 +149,101 @@ const updateImage = () =>{
     updateThumbnail();
 }
 
-// // attach event handler to all of the image tags 
-// // (after initScreen() has been invoked).
-
 document.querySelector('.next').onclick = showNext;
 document.querySelector('.prev').onclick = showPrev;
 document.querySelector('.featured_image').onclick = showNext;
+
+// Part II: Save & Reload
+// Satndard format of localStorage:
+// dairyStorage = [{
+//     date: "2022-1-15(etc.)",
+//     text: "xxxxx",
+//     images: images(dict),    
+// }, {},...,{}]
+
+var dairyDate = dairyTargetDate.year+"-"+dairyTargetDate.month+"-"+dairyTargetDate.day+"-Dairy";
+const loadDairy = () =>{
+    // Check if any dairy is saved before.
+    if (window.localStorage.getItem('dairyStorage')){
+        dairyStorage = JSON.parse(window.localStorage.getItem('dairyStorage'));
+        // Check if today's dairy is saved before.
+        for (dairy of dairyStorage) {
+            // If today's dairy is saved before.
+            if (dairy.date == dairyDate){
+                images = dairy.images;
+                updateImage();
+                document.querySelector(".textarea").value=dairy.text;
+                console.log(dairy);
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
+const saveDairy =() =>{
+    updateYN = false;
+    console.log("Text content", document.querySelector(".textarea").value);
+    // Check if any dairy is saved before.
+    if (window.localStorage.getItem('dairyStorage')){
+        dairyStorage = JSON.parse(window.localStorage.getItem('dairyStorage'));
+        thisDairy = {
+            date: dairyDate,
+            text: document.querySelector(".textarea").value,
+            images: images,
+        };
+        // Check if today's dairy is saved before.
+        for (dairy of dairyStorage) {
+            // If today's dairy is saved before.
+            if (dairy.date == dairyDate){
+                console.log("today's dairy is saved before");
+                dairy.text = document.querySelector(".textarea").value;
+                dairy.images = images;
+                console.log(dairy);
+                updateYN = true;
+            }
+        }
+        if (updateYN == false){
+            console.log("today's dairy is NOT saved before");
+            dairyStorage.push(thisDairy);
+            console.log(dairyStorage);
+            updateYN = true;
+        }
+    }else{
+        dairyStorage = [{
+            date: dairyDate,
+            text: document.document.querySelector(".textarea").value,
+            images: images,
+        }];
+        
+        updateYN = true;
+    }
+    window.localStorage.setItem('dairyStorage',JSON.stringify(dairyStorage));
+    return updateYN;   
+}
+
+function saveDairyCheck(){
+    var YN = saveDairy();
+    if (YN){
+        alert("Save Successfully!");
+    }else{
+        alert("Fail to save, please try again!");
+    }
+    console.log("Save dairy check\n",window.localStorage.getItem('dairyStorage'));
+}
+
+function loadDairyCheck(){
+    console.log("Load dairy check\n",window.localStorage.getItem('dairyStorage'));
+    var loadSuccess = loadDairy();
+    if (loadSuccess){
+        alert("Detect previously saved dairy. Load successfully!");
+    }else{
+        alert(" No previous dairy detected.");
+    }
+}
+
+document.querySelector(".save").addEventListener("click", saveDairyCheck);
+document.querySelector(".load").addEventListener("click", loadDairyCheck);
+// document.querySelector('.save').onclick = saveDairyCheck();
+// document.querySelector('.load').onclick = loadDairyCheck();

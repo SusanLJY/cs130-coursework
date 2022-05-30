@@ -8,10 +8,6 @@ body {
    
 }
 
-/* #m, #y{
-   display: none;
-} */
-
 .container {
    background: #F8EDEB;
    color: aliceblue;
@@ -154,3 +150,55 @@ body {
    grid-area: dec;;
 }
 
+
+@media (max-width: 1024px) {
+   .container{
+      height: 100vh;
+      width: 100%;
+      margin: 0px;
+      padding: 5px;
+       display: grid;
+       grid-template-rows: 0.125fr 0.25fr 1fr 1fr 1fr 1fr;
+       grid-template-columns: 1fr 1fr 1fr;
+       grid-template-areas: 
+           ". title ."
+           "L years R"
+           "jan feb mar"
+           "apr may jun"
+           "jul aug sep"
+           "oct nov dec";
+   }
+
+   #welcome {
+      font-size: large;
+   }
+
+}
+
+@media (max-width: 600px) {
+   .title, .years, .year-bar, #welcome, #button {
+      display: none;
+   }
+
+   .container{
+       padding: 5px;
+       display: grid;
+       grid-template-rows: 0.2fr 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr 0.25fr;
+       grid-template-columns: 1fr;
+       grid-template-areas: 
+         "jan"
+         "feb" 
+         "mar"
+         "apr"
+         "may" 
+         "jun" 
+         "jul" 
+         "aug"
+         "sep"
+         "oct"
+         "nov" 
+         "dec";
+       height: 100vh;
+       width: 100%;
+   }
+}

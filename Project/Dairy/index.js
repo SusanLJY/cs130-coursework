@@ -239,7 +239,7 @@ function loadDairyCheck(){
     if (loadSuccess){
         alert("Detect previously saved dairy. Load successfully!");
     }else{
-        alert(" No previous dairy detected.");
+        alert("No previous dairy is detected.");
     }
 }
 

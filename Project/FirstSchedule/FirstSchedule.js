@@ -25,6 +25,8 @@ setDate();
 //visualize the calendar
 calendar.render();
 
+loadPage();
+
 calendar.itemCreating.addEventListener(validateCreateItem);
 calendar.itemModified.addEventListener(validateModifyItem);
 
@@ -92,48 +94,60 @@ function validateModifyItem(sender, args) {
 }
 
 
-var button = document.getElementById('saveButton');
-button.addEventListener('click', function () {
+var saveButton = document.getElementById('saveButton');
+saveButton.addEventListener('click', function () {
 
     var data = calendar.schedule.toJson();
 
-    var blob = new Blob([data], {
-        type: 'application/json'
-    });
+    window.localStorage.setItem("planner",JSON.stringify(data));
+    console.log("saved!",data);
 
-    url = URL.createObjectURL(blob);
-    var link = document.createElement('a');
-    link.setAttribute('href', url);
-    link.setAttribute('download', 'first-schedule.json');
+    // var blob = new Blob([data], {
+    //     type: 'application/json'
+    // });
 
-    var event = document.createEvent('MouseEvents');
-    event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
-    link.dispatchEvent(event);
+    // url = URL.createObjectURL(blob);
+    // var link = document.createElement('a');
+    // link.setAttribute('href', url);
+    // link.setAttribute('download', 'first-schedule.json');
+
+    // var event = document.createEvent('MouseEvents');
+    // event.initMouseEvent('click', true, true, window, 1, 0, 0, 0, 0, false, false, false, false, 0, null);
+    // link.dispatchEvent(event);
 });
 
-function loadJSON(callback) {
+// function loadJSON(callback) {
 
-    var xobj = new XMLHttpRequest();
-    xobj.overrideMimeType("application/json");
-    xobj.open('GET', 'first-schedule.json', true); // Replace 'first-schedule' with the path to your file
-    xobj.onreadystatechange = function () {
-        if (xobj.readyState == 4 && xobj.status == "200") {
-            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-            callback(xobj.responseText);
-        }
-    };
-    xobj.send(null);
-}
+//     var xobj = new XMLHttpRequest();
+//     xobj.overrideMimeType("application/json");
+//     xobj.open('GET', 'first-schedule.json', true); // Replace 'first-schedule' with the path to your file
+//     xobj.onreadystatechange = function () {
+//         if (xobj.readyState == 4 && xobj.status == "200") {
+//             // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+//             callback(xobj.responseText);
+//         }
+//     };
+//     xobj.send(null);
+// }
 
-var button1 = document.getElementById('loadButton');
-button1.addEventListener('click', function () {
-    init();
-});
+var loadButton = document.getElementById('loadButton');
+loadButton.addEventListener('click', loadPage);
+
+function loadPage() {
+    console.log(window.localStorage.getItem("planner"));
+    if (window.localStorage.getItem("planner")){
+        calendar.schedule.fromJson(JSON.parse(window.localStorage.getItem("planner")));
+        alert("Page load successfully!");
+    }else{
+        alert("No previous planner is detected.");       
+    }
+    // init();
+};
 
 function init() {
     loadJSON(function (response) {
         // load the schedule from the JSON string
-        calendar.schedule.fromJson(response);
+        // calendar.schedule.fromJson(response);
     });
 }
 
